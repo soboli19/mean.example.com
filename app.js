@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 var config = require('./config.dev');
+var mongoose = require('mongoose');
 
 //Test the file
 //console.log(config);
@@ -43,3 +44,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+//Connect to MongoDB
+mongoose.connect(config.mongodb, { useNewUrlParser: true });
