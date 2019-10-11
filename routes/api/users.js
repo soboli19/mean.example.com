@@ -1,5 +1,8 @@
-# Add a routing file for api/users
-git status
-git add .
-git commit -a
-git push origin master
+var express = require('express');
+var router = express.Router();
+
+router.get('/', function(req, res, next) {
+  res.json({success: true});
+});
+
+module.exports = router;
