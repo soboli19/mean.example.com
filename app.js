@@ -13,7 +13,7 @@ var app = express();
 
 var config = require('./config.dev');
 var mongoose = require('mongoose');
-
+var apiAuthRouter = require('./routes/api/auth');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
@@ -49,6 +49,7 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/users', apiUsersRouter);
@@ -66,12 +67,13 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(function(user, done){
   done(null, user);
 });
+app.use('/api/auth', apiAuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
+app.use('/api/auth', apiAuthRouter);
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
