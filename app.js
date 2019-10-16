@@ -11,6 +11,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var Users = require('./models/users');
 var app = express();
 
+var authRouter = require('./routes/auth');
 var config = require('./config.dev');
 var mongoose = require('mongoose');
 var apiAuthRouter = require('./routes/api/auth');
@@ -70,6 +71,7 @@ passport.deserializeUser(function(user, done){
 app.use('/api/auth', apiAuthRouter);
 
 // catch 404 and forward to error handler
+app.use('/auth', authRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
