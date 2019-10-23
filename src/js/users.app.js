@@ -70,7 +70,8 @@ var usersApp = (function() {
         var app = document.getElementById('app');
       
         var form =  `
-            <div class="card">
+        <form id="createUser" class="card-body">    
+        <div class="card">
               <div class="card-header clearfix">
                 <h2 class="h3 float-left">Create a New User</h2>
                 <div class="float-right">
@@ -115,6 +116,37 @@ var usersApp = (function() {
       
         app.innerHTML=form;
       }
+      function postRequest(formId, url){
+        let form = document.getElementById(formId);
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+    
+          let formData = new FormData(form);
+          let uri = `${window.location.origin}${url}`;
+          let xhr = new XMLHttpRequest();
+          xhr.open('POST', uri);
+    
+          xhr.setRequestHeader(
+            'Content-Type',
+            'application/json; charset=UTF-8'
+          );
+    
+          let object = {};
+          formData.forEach(function(value, key){
+            object[key]=value;
+          });
+    
+          xhr.send(JSON.stringify(object));
+          xhr.onload = function(){
+            let data = JSON.parse(xhr.response);
+            if(data.success===true){
+              window.location.href = '/';
+            }else{
+              document.getElementById('formMsg').style.display='block';
+            }
+          }
+        });
+      }
       
     return {
         load: function(){
@@ -123,7 +155,9 @@ var usersApp = (function() {
           
             switch(hashArray[0]){
               case '#create':
+                case '#create':
                 createUser();
+                postRequest('createUser', '/api/users');
                 break;	    
                             
               case '#view':
