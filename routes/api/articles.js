@@ -23,7 +23,7 @@ router.get('/:id', function(req,res){
       return res.json({'success':false, 'error': err});
     }
 
-    return res.json({'success':true, 'article': articles});
+    return res.json({'success':true, 'article': article});
   });
 
 });
